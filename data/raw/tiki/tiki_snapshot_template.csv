@@ -1,0 +1,2 @@
+﻿sku,product_id,title,category,keyword,brand,seller,price,original_price,discount_rate,rating,review_count,sold,is_authentic,is_official_store,official_store_score,product_url,source
+example_sku,123456,Example product,Thiet Bi So,tai nghe,Example Brand,Tiki Trading,199000,249000,20,4.8,1200,350,true,true,1.0,https://tiki.vn/,Tiki Vietnam manual snapshot
