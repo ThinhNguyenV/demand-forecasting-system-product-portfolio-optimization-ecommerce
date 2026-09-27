@@ -62,6 +62,11 @@ def _build_product_metrics(
         "recommendation",
         "inventory_policy",
         "risk_flag",
+        "safety_stock",
+        "risk_adjusted_quantity",
+        "risk_adjusted_revenue",
+        "forecast_error_std",
+        "uncertainty_ratio",
     ]
     available_portfolio_cols = [col for col in portfolio_cols if col in portfolio.columns]
 
@@ -79,6 +84,11 @@ def _build_product_metrics(
         "forecast_revenue",
         "expected_profit",
         "portfolio_score",
+        "safety_stock",
+        "risk_adjusted_quantity",
+        "risk_adjusted_revenue",
+        "forecast_error_std",
+        "uncertainty_ratio",
     ]
     for col in numeric_cols:
         if col in result.columns:
@@ -126,3 +136,5 @@ def _build_monthly_metrics(history: pd.DataFrame) -> pd.DataFrame:
     result["revenue"] = result["revenue"].round(2)
     result["gross_profit"] = result["gross_profit"].round(2)
     return result
+
+

@@ -1,15 +1,22 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from dataclasses import dataclass
 
-from .config import CHART_DIR, PipelinePaths, ensure_directories
+from ..config import CHART_DIR, PipelinePaths, ensure_directories
+from ..data import (
+    aggregate_enriched_items_by_category,
+    build_olist_inputs,
+    create_eda_charts,
+)
+from ..models import (
+    backtest_demand,
+    benchmark_forecast_models,
+    best_model_from_metrics,
+    forecast_demand,
+    reconcile_sku_to_category_forecast,
+)
+from ..optimization import optimize_portfolio
 from .dashboard_data import export_dashboard_datasets
-from .eda import create_eda_charts
-from .evaluation import backtest_demand, benchmark_forecast_models, best_model_from_metrics
-from .forecasting import forecast_demand
-from .olist import build_olist_inputs
-from .optimization import optimize_portfolio
-from .time_series import aggregate_enriched_items_by_category
 
 
 @dataclass(frozen=True)
@@ -54,6 +61,8 @@ def run_pipeline(
             "seasonal_naive",
             "simple_exp_smoothing",
             "exp_smoothing",
+            "croston",
+            "tsb",
             "random_forest",
         ),
     )
@@ -64,7 +73,7 @@ def run_pipeline(
     sku_backtest_details, sku_backtest_metrics = backtest_demand(
         olist.demand_history,
         test_months=test_months,
-        model_name="exp_smoothing",
+        model_name="pattern_routed",
     )
     sku_backtest_details.to_csv(paths.forecast_backtest_details, index=False, encoding="utf-8-sig")
     sku_backtest_metrics.to_csv(paths.forecast_backtest_metrics, index=False, encoding="utf-8-sig")
@@ -77,13 +86,19 @@ def run_pipeline(
     category_backtest_details.to_csv(paths.category_forecast_backtest_details, index=False, encoding="utf-8-sig")
     category_backtest_metrics.to_csv(paths.category_forecast_backtest_metrics, index=False, encoding="utf-8-sig")
 
-    forecast = forecast_demand(olist.demand_history, horizon=horizon, model_name="exp_smoothing")
-    forecast.to_csv(paths.forecast, index=False, encoding="utf-8-sig")
-
     category_forecast = forecast_demand(category_history, horizon=horizon, model_name=best_category_model)
     category_forecast.to_csv(paths.category_forecast, index=False, encoding="utf-8-sig")
 
-    portfolio = optimize_portfolio(olist.products, forecast, top_n=top_n)
+    forecast = forecast_demand(olist.demand_history, horizon=horizon, model_name="pattern_routed")
+    forecast = reconcile_sku_to_category_forecast(forecast, category_forecast)
+    forecast.to_csv(paths.forecast, index=False, encoding="utf-8-sig")
+
+    portfolio = optimize_portfolio(
+        olist.products,
+        forecast,
+        top_n=top_n,
+        backtest_metrics=sku_backtest_metrics,
+    )
     portfolio.to_csv(paths.portfolio, index=False, encoding="utf-8-sig")
     export_dashboard_datasets(
         olist.products,
@@ -104,3 +119,4 @@ def run_pipeline(
         portfolio_rows=len(portfolio),
         paths=paths,
     )
+

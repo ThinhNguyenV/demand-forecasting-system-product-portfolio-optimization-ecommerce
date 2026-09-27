@@ -1,0 +1,30 @@
+{
+  "site_name": "Books to Scrape",
+  "page_url_template": "https://books.toscrape.com/catalogue/page-{page}.html",
+  "product_selector": "article.product_pod",
+  "pages": 3,
+  "start_page": 1,
+  "delay_seconds": 1.0,
+  "timeout_seconds": 20,
+  "fields": {
+    "title": {
+      "css": "h3 a",
+      "attribute": "title"
+    },
+    "price": ".price_color",
+    "rating": {
+      "css": "p.star-rating",
+      "attribute": "class",
+      "default": ""
+    },
+    "product_url": {
+      "css": "h3 a",
+      "attribute": "href"
+    }
+  },
+  "constants": {
+    "category": "Books",
+    "brand": "",
+    "seller": "Books to Scrape"
+  }
+}

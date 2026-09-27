@@ -1,3 +1,10 @@
+Metadata-Version: 2.4
+Name: ecom-forecasting
+Version: 0.1.0
+Summary: Demand forecasting and product portfolio optimization for ecommerce
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
 # Demand Forecasting and Product Portfolio Optimization for E-commerce
 
 Hệ thống dự báo nhu cầu và hỗ trợ quyết định danh mục sản phẩm cho thương mại điện tử. Pipeline xử lý dữ liệu giao dịch Olist, benchmark mô hình ở cấp danh mục, phân tuyến mô hình theo demand pattern ở cấp SKU, điều hòa forecast category-SKU, bổ sung safety stock từ backtest error và trực quan hóa kết quả bằng Streamlit.

@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from .config import OLIST_RAW_DIR
+from ..config import OLIST_RAW_DIR
 
 
 REQUIRED_OLIST_FILES = {
@@ -191,6 +191,7 @@ def _build_monthly_demand(enriched: pd.DataFrame, products: pd.DataFrame) -> pd.
     margin_lookup = products.set_index("sku")["estimated_margin_rate"]
     title_lookup = products.set_index("sku")["title"]
     category_lookup = products.set_index("sku")["category"]
+    pattern_lookup = products.set_index("sku")["demand_pattern"] if "demand_pattern" in products.columns else {}
 
     monthly = (
         selected.groupby(["product_id", "date"], as_index=False)
@@ -210,6 +211,7 @@ def _build_monthly_demand(enriched: pd.DataFrame, products: pd.DataFrame) -> pd.
         group["revenue"] = group["revenue"].fillna(0)
         group["title"] = title_lookup.get(sku, sku)
         group["category"] = category_lookup.get(sku, "unknown")
+        group["demand_pattern"] = pattern_lookup.get(sku, "unclassified")
         group["gross_profit"] = group["revenue"] * float(margin_lookup.get(sku, 0.25))
         complete_rows.append(group.reset_index(names="date"))
 
@@ -218,9 +220,7 @@ def _build_monthly_demand(enriched: pd.DataFrame, products: pd.DataFrame) -> pd.
     result["price"] = result["price"].round(2)
     result["revenue"] = result["revenue"].round(2)
     result["gross_profit"] = result["gross_profit"].round(2)
-    return result[["date", "sku", "title", "category", "quantity", "price", "revenue", "gross_profit"]]
-
-
+    return result[["date", "sku", "title", "category", "demand_pattern", "quantity", "price", "revenue", "gross_profit"]]
 def _estimate_margin_rate(products: pd.DataFrame) -> pd.Series:
     price_rank = products["price"].rank(pct=True)
     freight_burden = (products["avg_freight_value"] / products["price"].clip(lower=1)).clip(0, 0.6)
@@ -260,3 +260,6 @@ def _mode_or_unknown(series: pd.Series) -> str:
 def _product_title(series: pd.Series) -> str:
     category = _mode_or_unknown(series)
     return f"Olist product - {category}"
+
+
+

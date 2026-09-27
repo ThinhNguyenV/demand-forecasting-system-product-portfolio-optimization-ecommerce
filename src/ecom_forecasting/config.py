@@ -1,4 +1,4 @@
-﻿from dataclasses import dataclass
+from dataclasses import dataclass
 from pathlib import Path
 
 
@@ -20,6 +20,7 @@ class PipelinePaths:
     category_demand_history: Path = PROCESSED_DIR / "category_demand_history.csv"
     olist_order_items: Path = PROCESSED_DIR / "olist_order_items_enriched.csv"
     tiki_snapshot: Path = RAW_DIR / "tiki_snapshot.csv"
+    public_market_snapshot: Path = RAW_DIR / "public_market_snapshot.csv"
     forecast: Path = OUTPUT_DIR / "forecast.csv"
     category_forecast: Path = OUTPUT_DIR / "category_forecast.csv"
     forecast_backtest_details: Path = OUTPUT_DIR / "forecast_backtest_details.csv"
@@ -30,6 +31,7 @@ class PipelinePaths:
     model_comparison_metrics: Path = OUTPUT_DIR / "model_comparison_metrics.csv"
     portfolio: Path = OUTPUT_DIR / "portfolio_recommendations.csv"
     tiki_portfolio_case: Path = OUTPUT_DIR / "tiki_portfolio_case.csv"
+    public_market_case: Path = OUTPUT_DIR / "public_market_case.csv"
 
 
 def ensure_directories() -> None:

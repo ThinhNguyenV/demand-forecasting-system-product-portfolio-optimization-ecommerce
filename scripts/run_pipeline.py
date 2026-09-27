@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from ecom_forecasting.pipeline import run_pipeline
+from ecom_forecasting.services import run_pipeline
 
 
 def main() -> None:

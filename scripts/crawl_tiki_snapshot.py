@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from ecom_forecasting.config import PipelinePaths, ensure_directories
-from ecom_forecasting.tiki_case import (
+from ecom_forecasting.crawlers import (
     TikiScrapeConfig,
     crawl_tiki_snapshot,
     export_tiki_portfolio_case,

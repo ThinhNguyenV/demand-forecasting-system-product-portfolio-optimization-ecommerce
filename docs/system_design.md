@@ -1,4 +1,4 @@
-﻿# Thiết Kế Hệ Thống
+# Thiết Kế Hệ Thống
 
 ## 1. Mục tiêu hệ thống
 
@@ -38,7 +38,7 @@ Tiki public snapshot or manual CSV
 
 ### Olist Data Builder
 
-Module: `src/ecom_forecasting/olist.py`
+Module: `src/ecom_forecasting/data/olist.py`
 
 Nhiệm vụ:
 
@@ -50,7 +50,7 @@ Nhiệm vụ:
 
 ### Time-Series Aggregation
 
-Module: `src/ecom_forecasting/time_series.py`
+Module: `src/ecom_forecasting/data/time_series.py`
 
 Nhiệm vụ:
 
@@ -59,7 +59,7 @@ Nhiệm vụ:
 
 ### Forecasting
 
-Module: `src/ecom_forecasting/forecasting.py`
+Module: `src/ecom_forecasting/models/forecasting.py`
 
 Nhiệm vụ:
 
@@ -69,7 +69,7 @@ Nhiệm vụ:
 
 ### Model Evaluation
 
-Module: `src/ecom_forecasting/evaluation.py`
+Module: `src/ecom_forecasting/models/evaluation.py`
 
 Nhiệm vụ:
 
@@ -80,7 +80,7 @@ Nhiệm vụ:
 
 ### Portfolio Optimization
 
-Module: `src/ecom_forecasting/optimization.py`
+Module: `src/ecom_forecasting/optimization/portfolio.py`
 
 Nhiệm vụ:
 
@@ -93,7 +93,7 @@ Nhiệm vụ:
 
 ### Dashboard Data Export
 
-Module: `src/ecom_forecasting/dashboard_data.py`
+Module: `src/ecom_forecasting/services/dashboard_data.py`
 
 Nhiệm vụ:
 
@@ -102,7 +102,7 @@ Nhiệm vụ:
 
 ### Tiki Case Study
 
-Module: `src/ecom_forecasting/tiki_case.py`
+Module: `src/ecom_forecasting/crawlers/tiki_case.py`
 
 Scripts:
 

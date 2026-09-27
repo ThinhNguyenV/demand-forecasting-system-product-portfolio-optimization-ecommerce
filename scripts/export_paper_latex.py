@@ -1,0 +1,162 @@
+"""
+Script xuất bản thảo bài báo khoa học ra định dạng LaTeX (.tex)
+chuẩn định dạng IEEE / Springer phục vụ nộp hội thảo hoặc lưu trữ học thuật.
+Sinh viên thực hiện: Nguyễn Văn Thịnh (MSSV: 25730149)
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+
+def generate_latex_paper(output_path: Path):
+    latex_content = r"""\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{A Dual-Level Pattern-Routed Forecasting and Risk-Aware Portfolio Optimization Framework for E-Commerce}
+
+\author{\IEEEauthorblockN{Van-Thinh Nguyen}
+\IEEEauthorblockA{\textit{Faculty of Information Systems} \\
+\textit{University of Information Technology, VNU-HCM}\\
+Ho Chi Minh City, Vietnam \\
+25730149@uit.edu.vn}
+}
+
+\maketitle
+
+\begin{abstract}
+In modern e-commerce fulfillment and marketplace management, demand forecasting and assortment planning represent critical drivers of operational resilience and profitability. However, retail transaction data exhibits structural complexities: vast assortments dominated by long-tail items, highly intermittent demand characterized by extensive zero-demand intervals, and cross-echelon bullwhip distortion. Applying a homogeneous forecasting model uniformly across all stock keeping units (SKUs) inevitably incurs severe inaccuracies, exacerbating stockouts and dead-stock accumulation. 
+
+To overcome these challenges, this paper presents an integrated analytical framework featuring three core innovations: (1) \textbf{Dual-Level Pattern-Routed Forecasting Architecture}, which benchmarks 8 diverse models at the aggregate category level while dynamically segmenting 800 SKUs into three demand archetypes (\textit{fast-moving}, \textit{slow-moving}, and \textit{intermittent}) to route them to tailored algorithms (Global Panel Random Forest, Croston, or Teunter-Syntetos-Babai); (2) \textbf{Top-Down Proportional Forecast Reconciliation and Forecast-Error-Driven Safety Stock}, ensuring strict mathematical coherence between granular SKU projections and category constraints while translating backtest error dispersion ($\sigma_e$) into risk-adjusted buffer inventory; and (3) \textbf{Multi-Objective Risk-Aware Portfolio Optimization and Explainability}, unifying ABC revenue stratification, margin proxies, demand velocity, and uncertainty ratios into a constrained \textit{Portfolio Priority Score}, underpinned by SHAP TreeExplainer interpretability. 
+
+Validated on the Olist Brazilian E-Commerce dataset comprising 110,197 enriched transactions across 50 categories and 800 SKUs, empirical results demonstrate that Simple Exponential Smoothing achieves superior accuracy at the category level (WAPE: 22.68\%). At the granular SKU level, the proposed pattern-routed mechanism significantly suppresses WAPE from 140.73\% down to 118.78\%, securing a notable 21.95-percentage-point error reduction.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Demand Forecasting, Intermittent Demand, Model Routing, Forecast Reconciliation, Safety Stock, Portfolio Optimization, SHAP, E-Commerce Analytics.
+\end{IEEEkeywords}
+
+\section{Introduction}
+Supply chain dynamics in contemporary e-commerce marketplaces present acute operational complexity. Digital platforms handle millions of customer interactions with rapid catalog expansion and shortened product life cycles. Within this environment, inventory misallocation carries acute economic penalties: stockouts compromise vendor reputations and trigger customer defections, whereas excess inventory incurs prohibitive warehousing costs and markdown erosion.
+
+Demand forecasting in digital retail is fundamentally hindered by the \textbf{Long-Tail distribution} and \textbf{intermittent demand patterns}. In contrast to fast-moving consumer goods that exhibit continuous consumption patterns, the majority of e-commerce SKUs experience erratic purchasing rhythms characterized by sporadic transactions separated by long sequences of zero-demand periods. Traditional time-series methods struggle under such sparsity. Furthermore, decoupled forecasting across product hierarchies induces discrepancies between top-level strategic targets and bottom-up operational procurement.
+
+To resolve these interconnected bottlenecks, this research proposes an end-to-end, dual-level, pattern-routed forecasting and risk-aware portfolio optimization framework.
+
+\section{Methodology}
+
+\subsection{Demand Pattern Categorization}
+Following the canonical classification established by Syntetos and Boylan (2005), demand sequences are characterized by the Average Inter-demand Interval ($ADI = N/k$) and the Squared Coefficient of Variation ($CV^2 = (\sigma_z / \mu_z)^2$). The framework partitions 800 retail SKUs into three practical operational regimes:
+\begin{itemize}
+    \item \textbf{Fast-Moving:} Sustained order frequency ($ZeroMonthRate \le 0.35$ and $CV < 1.2$).
+    \item \textbf{Intermittent:} Dominated by sparse transaction occurrences ($ZeroMonthRate \ge 0.50$ or $ADI \ge 1.4$).
+    \item \textbf{Slow-Moving:} Intermediate velocity requiring balanced risk controls.
+\end{itemize}
+
+\subsection{Algorithmic Suite and Routing}
+The framework benchmarks eight models: Naïve, Simple Moving Average (SMA), Seasonal Naïve (SNaive), Simple Exponential Smoothing (SES), Holt-Winters Exponential Smoothing (HW-ES), Croston Method, Teunter-Syntetos-Babai (TSB), and a Global Panel Random Forest Regressor.
+
+\textbf{Routing Strategy:} Fast-moving series are routed to the Global Random Forest; intermittent series are dispatched to TSB to prevent obsolescence overestimation; and slow-moving items are assigned to Croston or Global RF based on zero-rate thresholds.
+
+\subsection{Top-Down Proportional Forecast Reconciliation}
+Let $\hat{Y}_{c, t}$ denote the independent top-level forecast for category $c$ and $\hat{y}_{i, t}^{\text{raw}}$ denote bottom-level SKU forecasts. Proportional reconciliation enforces:
+\begin{equation}
+\hat{y}_{i, t}^{\text{reconciled}} = \text{round} \left( \hat{Y}_{c, t} \times \frac{\hat{y}_{i, t}^{\text{raw}}}{\sum_{j \in c} \hat{y}_{j, t}^{\text{raw}}} \right)
+\end{equation}
+
+\subsection{Risk-Aware Safety Stock \& Portfolio Prioritization}
+Safety stock ($SS$) directly integrates out-of-sample backtest prediction errors ($\sigma_{e, i}$):
+\begin{equation}
+SS_i = \left\lceil z \cdot \sigma_{e, i} \cdot \sqrt{H} \right\rceil
+\end{equation}
+where $z = 1.65$ corresponds to a 95\% cycle service level over horizon $H$.
+
+The multi-objective priority ranking synthesizes expected profitability, risk-adjusted volume, revenue percentile, pattern reliability, and uncertainty suppression:
+\begin{align*}
+\text{PortfolioScore}_i = & \; 0.30 \cdot \text{Rank}(\text{Profit}_i) + 0.25 \cdot \text{Rank}(Q_i + SS_i) \\
+& + 0.20 \cdot \text{Rank}(\text{Rev}_i) + 0.15 \cdot \text{PatternScore}_i \\
+& + 0.10 \cdot (1 - \text{Rank}(UR_i))
+\end{align*}
+subject to a category diversification cap preventing any individual sector from exceeding 40\% of the recommended portfolio.
+
+\section{Empirical Evaluation}
+
+\subsection{Category-Level Benchmark}
+Backtesting across a 3-month holdout set over 50 product categories reveals the performance hierarchy:
+
+\begin{table}[htbp]
+\caption{Overall Category-Level Forecast Benchmark}
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{MAE} & \textbf{RMSE} & \textbf{WAPE} & \textbf{Bias} \\
+\midrule
+\textbf{Simple Exp Smoothing} & \textbf{21.87} & \textbf{41.09} & \textbf{22.68\%} & \textbf{+11.14} \\
+Naïve & 21.92 & 41.44 & 22.74\% & +10.67 \\
+Random Forest & 23.45 & 44.30 & 24.33\% & +9.69 \\
+Moving Average & 29.19 & 55.98 & 30.29\% & +7.30 \\
+Holt-Winters & 29.19 & 55.98 & 30.29\% & +7.30 \\
+TSB & 32.91 & 75.70 & 34.14\% & -25.84 \\
+Croston & 33.10 & 76.07 & 34.34\% & -26.08 \\
+Seasonal Naïve & 47.07 & 99.36 & 48.83\% & -38.03 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+SES achieves superior accuracy due to its responsive level adaptation without overfitting high-frequency seasonal noise.
+
+\subsection{SKU-Level Pattern-Routed Gains}
+At the granular SKU level across 800 products, evaluating the pattern-routed architecture against a uniform single-model baseline demonstrates substantial improvement:
+\begin{itemize}
+    \item \textbf{Single Baseline (Holt-Winters):} WAPE: 140.73\%, MAE: 2.65, RMSE: 5.82.
+    \item \textbf{Pattern-Routed Architecture:} WAPE: \textbf{118.78\%}, MAE: \textbf{2.24}, RMSE: \textbf{5.04}.
+    \item \textbf{Performance Gain:} 21.95 percentage points reduction in WAPE, coupled with a 15.5\% reduction in MAE.
+\end{itemize}
+
+\subsection{SHAP Interpretability Analysis}
+SHAP TreeExplainer analysis highlights distinct operational mechanics:
+\begin{itemize}
+    \item \textbf{Fast-Moving Segment:} Dominated by $Lag_1$ and $RollingMean_{3m}$, confirming heavy reliance on recent consumption momentum.
+    \item \textbf{Intermittent Segment:} Strongly governed by $ZeroDemandRate$ and $RollingStd$, demonstrating that the probability of demand reoccurrence heavily outweighs instantaneous volume history.
+\end{itemize}
+
+\section{Conclusion}
+This research proposed an integrated, dual-level e-commerce demand forecasting and assortment optimization system. By harmonizing pattern-routed time-series forecasting, hierarchical reconciliation, backtest-derived safety stock sizing, and SHAP explainability, the proposed framework establishes a rigorous, interpretable, and commercially viable decision-support engine.
+
+\begin{thebibliography}{00}
+\bibitem{b1} A. A. Syntetos and J. E. Boylan, ``The accuracy of intermittent demand estimates,'' \textit{Int. J. Forecast.}, vol. 21, no. 2, pp. 303--314, 2005.
+\bibitem{b2} J. D. Croston, ``Forecasting and stock control for intermittent demands,'' \textit{Oper. Res. Q.}, pp. 289--303, 1972.
+\bibitem{b3} R. H. Teunter, A. A. Syntetos, and M. Z. Babai, ``Intermittent demand: Customer-induced interarrival times and a new forecasting method,'' \textit{Int. J. Prod. Econ.}, vol. 133, no. 1, pp. 329--337, 2011.
+\bibitem{b4} R. J. Hyndman and G. Athanasopoulos, \textit{Forecasting: principles and practice}, 2nd ed. OTexts: Melbourne, Australia, 2018.
+\bibitem{b5} S. L. Wickramasuriya, G. Athanasopoulos, and R. J. Hyndman, ``Optimal forecast reconciliation for hierarchical and grouped time series through trace minimization,'' \textit{J. Am. Stat. Assoc.}, vol. 114, no. 526, pp. 804--819, 2019.
+\bibitem{b6} L. Breiman, ``Random forests,'' \textit{Mach. Learn.}, vol. 45, no. 1, pp. 5--32, 2001.
+\bibitem{b7} S. M. Lundberg and S. I. Lee, ``A unified approach to interpreting model predictions,'' \textit{Adv. Neural Inf. Process. Syst.}, vol. 30, pp. 4765--4774, 2017.
+\end{thebibliography}
+
+\end{document}
+"""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(latex_content)
+    print(f"[SUCCESS] Da xuat ban thao LaTeX thanh cong tai: {output_path}")
+
+
+if __name__ == "__main__":
+    root = Path(__file__).resolve().parent.parent
+    latex_file = root / "docs" / "paper_demand_forecasting.tex"
+    generate_latex_paper(latex_file)
