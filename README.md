@@ -7,13 +7,12 @@
 [![Machine Learning](https://img.shields.io/badge/ML-Scikit--Learn%20%7C%20Statsmodels%20%7C%20SHAP-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![Playwright](https://img.shields.io/badge/Web%20Scraping-Playwright%20%2B%20BS4-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev/)
 [![Tests](https://img.shields.io/badge/Pytest-12%20Passed%20(100%25)-brightgreen?logo=pytest&logoColor=white)](tests/)
-[![Academic Report](https://img.shields.io/badge/Report-Word%20OMML%20%2B%20LaTeX%20IEEE-00599C?logo=latex&logoColor=white)](docs/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Automated Report](https://img.shields.io/badge/System%20Report-Word%20OMML%20%7C%20LaTeX-00599C?logo=microsoft-word&logoColor=white)](docs/)
+[![Architecture](https://img.shields.io/badge/Architecture-Clean%20Pipeline-blueviolet)](src/)
 
 **HỆ THỐNG DỰ BÁO NHU CẦU ĐA CẤP ĐỊNH TUYẾN THEO DEMAND PATTERN VÀ TỐI ƯU HÓA DANH MỤC SẢN PHẨM PHÒNG NGỪA RỦI RO TRONG THƯƠNG MẠI ĐIỆN TỬ**
 
-*Khóa luận / Chuyên đề Tốt nghiệp — Khoa Hệ thống Thông tin, Trường Đại học Công nghệ Thông tin, ĐHQG-HCM (UIT)*  
-**Sinh viên thực hiện:** Nguyễn Văn Thịnh — **MSSV:** 25730149
+*An End-to-End Enterprise-Grade Machine Learning & Decision Intelligence Architecture for Retail & E-Commerce Operations*
 
 </div>
 
@@ -43,9 +42,8 @@
    - [8.1. Thu thập Web HTML tĩnh (Static Engine)](#81-thu-thập-web-html-tĩnh-static-engine)
    - [8.2. Thu thập Web JavaScript / SPA (Playwright Engine)](#82-thu-thập-web-javascript--spa-playwright-engine)
    - [8.3. Nguyên tắc an toàn & Tuân thủ Robots.txt](#83-nguyên-tắc-an-toàn--tuân-thủ-robotstxt)
-9. [Xuất bản báo cáo & Công bố học thuật](#-xuất-bản-báo-cáo--công-bố-học-thuật)
+9. [Tự động xuất báo cáo & Trích xuất sơ đồ hệ thống](#-tự-động-xuất-báo-cáo--trích-xuất-sơ-đồ-hệ-thống)
 10. [Hệ thống tài liệu dự án](#-hệ-thống-tài-liệu-dự-án)
-11. [Tác giả & Bản quyền](#-tác-giả--bản-quyền)
 
 ---
 
@@ -57,7 +55,7 @@ Trong ngành bán lẻ trực tuyến (E-commerce), các quyết định về th
 
 ### Đột phá của giải pháp
 
-Dự án này phát triển một hệ sinh thái hoàn chỉnh giải quyết triệt để các hạn chế trên:
+Hệ thống được phát triển như một kiến trúc Machine Learning & Hỗ trợ Ra quyết định hoàn chỉnh nhằm giải quyết triệt để các hạn chế trên:
 
 - **Kiến trúc dự báo 2 tầng (Dual-Level Forecasting):**
   - **Tầng Category (Vĩ mô):** Benchmark 8 mô hình dự báo chuỗi thời gian trên 50 danh mục sản phẩm; mô hình Simple Exponential Smoothing (SES) đạt độ chính xác cao với WAPE chỉ **22.68%**.
@@ -65,8 +63,8 @@ Dự án này phát triển một hệ sinh thái hoàn chỉnh giải quyết t
 - **Điều hòa dự báo phân cấp (Top-Down Proportional Reconciliation):** Khớp nối dự báo tổng thể cấp danh mục xuống từng SKU thành phần nhằm bảo toàn tính nhất quán ngân sách.
 - **Tối ưu danh mục tích hợp Tồn kho an toàn (Risk-Aware Portfolio Optimization):** Tính toán trực tiếp tồn kho đệm (Safety Stock) từ sai số thực tế ngoài mẫu (Backtest Error $\sigma_e$) thay vì độ lệch chuẩn nhu cầu tĩnh, xây dựng ma trận ưu tiên đa mục tiêu kết hợp biên lợi nhuận, doanh thu và rủi ro.
 - **Khả năng giải thích với SHAP TreeExplainer (XAI):** Minh bạch hóa các yếu tố tác động (lags, rolling momentum, zero-demand rate) ở cấp độ toàn cục và trên từng quyết định của từng SKU.
-- **Bộ thu thập dữ liệu thị trường (Dual-Engine Web Scraper):** Thu thập dữ liệu đối sánh tại Việt Nam từ cả website HTML tĩnh và Single Page Application (SPA render qua JavaScript) với Playwright Chromium, hoàn toàn tự động kiểm tra `robots.txt`.
-- **Giao diện tương tác Streamlit 7 Phân hệ & Hệ thống xuất báo cáo:** Hỗ trợ ra quyết định thời gian thực và tích hợp bộ công cụ tự động xuất Báo cáo tốt nghiệp Microsoft Word (.docx chuẩn OMML Math) và Bài báo nghiên cứu LaTeX (.tex chuẩn IEEE).
+- **Bộ thu thập dữ liệu thị trường (Dual-Engine Web Scraper):** Thu thập dữ liệu đối sánh tại thị trường thực tế từ cả website HTML tĩnh và Single Page Application (SPA render qua JavaScript) với Playwright Chromium, hoàn toàn tự động kiểm tra `robots.txt`.
+- **Giao diện tương tác Streamlit 7 Phân hệ & Bộ công cụ tự động hóa:** Hỗ trợ ra quyết định thời gian thực, tích hợp công cụ tự động trích xuất Báo cáo kỹ thuật Microsoft Word (.docx chuẩn Office Math OMML không vỡ font) và Báo cáo nghiên cứu LaTeX (.tex).
 
 ---
 
@@ -89,18 +87,18 @@ flowchart TD
         B3 --> C5["SHAP TreeExplainer (Feature Driver Analysis)"]
     end
 
-    subgraph TrackB["Track 2: Market Snapshot (Minh họa Thị trường Việt Nam)"]
+    subgraph TrackB["Track 2: Market Snapshot (Minh họa Thị trường Đối chuẩn)"]
         D1["Website công khai (HTML tĩnh / JS SPA)"] --> D2["Generic Web Crawler (Requests + BS4 / Playwright Chromium)"]
         D2 --> D3["Kiểm tra Robots.txt & Rate-limiting"]
         D3 --> D4["Chuẩn hóa Schema & Market Demand Proxy"]
         D4 --> D5["Phân tích Portfolio Thị trường (Market Case)"]
     end
 
-    subgraph Delivery["Tầng Trực quan hóa & Xuất bản"]
+    subgraph Delivery["Tầng Trực quan hóa & Báo cáo"]
         C4 & C5 & D5 --> E1["Streamlit Web App (7 Tabs tương tác)"]
         C4 & C1 --> E2["Bộ sinh sơ đồ 300 DPI (generate_thesis_diagrams.py)"]
-        E2 --> E3["Báo cáo Word chuẩn UIT (.docx OMML Math)"]
-        E2 --> E4["Bài báo khoa học chuẩn IEEE (.tex)"]
+        E2 --> E3["Báo cáo kỹ thuật Word (.docx OMML Math)"]
+        E2 --> E4["Báo cáo tổng hợp định dạng LaTeX (.tex)"]
     end
 
     classDef trackStyle fill:#f0f7ff,stroke:#0066cc,stroke-width:2px;
@@ -134,7 +132,7 @@ flowchart TD
 
 ### 4.1. Phân loại Demand Pattern (Syntetos-Boylan)
 
-Dựa trên nghiên cứu kinh điển của Syntetos & Boylan (2005), hệ thống phân loại 800 SKU Olist dựa trên hai chỉ số:
+Dựa trên phương pháp chuẩn công nghiệp của Syntetos & Boylan (2005) trong quản trị chuỗi cung ứng, hệ thống phân loại 800 SKU Olist dựa trên hai chỉ số:
 - **Khoảng cách nhu cầu trung bình (ADI - Average Demand Interval):**
   $$ADI = \frac{N}{k}$$
   *(Trong đó $N$ là tổng số kỳ quan sát, $k$ là số kỳ có phát sinh nhu cầu).*
@@ -247,7 +245,7 @@ $$f(x) = \phi_0 + \sum_{j=1}^{M} \phi_j(x)$$
 
 Backtest trên tập holdout 3 tháng trên toàn bộ 50 danh mục sản phẩm Olist:
 
-| Hạng | Mô hình | MAE | RMSE | WAPE (%) | Bias | Nhận định học thuật |
+| Hạng | Mô hình | MAE | RMSE | WAPE (%) | Bias | Đánh giá chuyên môn / Technical Insights |
 | :---: | :--- | :---: | :---: | :---: | :---: | :--- |
 | 🥇 | **Simple Exp Smoothing (SES)** | **21.87** | **41.09** | **22.68%** | **+11.14** | **Tốt nhất:** Thích ứng nhanh với thay đổi mức nền mà không bị quá khớp (overfitting). |
 | 🥈 | Naïve Baseline | 21.92 | 41.44 | 22.74% | +10.67 | Bám sát giá trị tháng liền trước rất hiệu quả trên chuỗi tổng gộp. |
@@ -306,15 +304,13 @@ demand_forecasting/
 │   ├── raw/                           # Dữ liệu thô (Olist CSV, Market snapshots)
 │   ├── processed/                     # Dữ liệu sạch, bảng enriched, chuỗi thời gian tháng
 │   └── outputs/                       # Kết quả forecast, backtest metrics, portfolio recommendations
-│       └── charts/                    # 20 biểu đồ học thuật xuất bản chất lượng cao (300 DPI)
+│       └── charts/                    # 20 biểu đồ kỹ thuật & kiến trúc độ phân giải cao (300 DPI)
 │
-├── docs/                              # Toàn bộ tài liệu kỹ thuật & học thuật
+├── docs/                              # Toàn bộ tài liệu thiết kế hệ thống & giải pháp
 │   ├── system_design.md               # Thiết kế kiến trúc chi tiết, pipeline flow & I/O schema
 │   ├── model_evaluation.md            # Phương pháp luận benchmark, công thức toán & chỉ số lỗi
 │   ├── data_strategy.md               # Chiến lược dữ liệu & cơ sở lựa chọn Olist vs. Market Proxy
-│   ├── dashboard_data_dictionary.md   # Từ điển dữ liệu toàn bộ các cột trong hệ thống
-│   ├── paper_demand_forecasting.md    # Bản thảo bài báo khoa học tiếng Anh
-│   └── paper_demand_forecasting.tex   # Bài báo khoa học định dạng LaTeX chuẩn IEEE
+│   └── dashboard_data_dictionary.md   # Từ điển dữ liệu toàn bộ các cột trong hệ thống
 │
 ├── scripts/                           # Tập lệnh tự động hóa vận hành pipeline
 │   ├── download_olist.py              # Tự động tải / cấu trúc dữ liệu Olist raw
@@ -322,8 +318,8 @@ demand_forecasting/
 │   ├── crawl_public_site.py           # CLI thu thập website công khai (Static BS4 / Playwright JS)
 │   ├── crawl_tiki_snapshot.py         # Crawler tương thích ngược snapshot Tiki
 │   ├── build_tiki_case_from_csv.py    # Xây dựng market case từ file CSV thị trường
-│   ├── export_report_word.py          # Xuất báo cáo tốt nghiệp Word (.docx) chuẩn OMML Math
-│   ├── export_paper_latex.py          # Xuất bản thảo bài báo khoa học LaTeX (.tex)
+│   ├── export_report_word.py          # Xuất báo cáo kỹ thuật Microsoft Word (.docx) chuẩn OMML Math
+│   ├── export_paper_latex.py          # Xuất báo cáo nghiên cứu định dạng LaTeX (.tex)
 │   └── generate_thesis_diagrams.py    # Sinh hệ thống sơ đồ kiến trúc & luồng xử lý 300 DPI
 │
 ├── src/ecom_forecasting/              # Module mã nguồn cốt lõi (Core Python Package)
@@ -528,33 +524,33 @@ python scripts\crawl_public_site.py `
 Module crawler được thiết kế dựa trên tiêu chuẩn đạo đức thu thập dữ liệu (Ethical Web Scraping):
 - **Tự động kiểm tra `robots.txt`:** Kiểm tra URL trước khi gửi request; tự động từ chối nếu bị cấm bởi `Disallow`.
 - **Cơ chế tôn trọng `crawl-delay`:** Duy trì độ trễ giữa các request (mặc định 1.0 giây).
-- **Nhận diện User-Agent minh bạch:** Khai báo User-Agent định danh phục vụ học thuật.
+- **Nhận diện User-Agent minh bạch:** Khai báo User-Agent định danh chuẩn mực, minh bạch.
 - **Dừng an toàn:** Tự động ngắt khi gặp mã trạng thái HTTP `401`, `403` hoặc `429`.
 - **Cam kết:** Không bao giờ bypass captcha, đăng nhập hay vượt rào kiểm soát truy cập cá nhân.
 
 ---
 
-## 📄 Xuất bản báo cáo & Công bố học thuật
+## 📄 Tự động xuất báo cáo & Trích xuất sơ đồ hệ thống
 
-Dự án cung cấp bộ công cụ tự động biên dịch toàn bộ dữ liệu, mô hình toán và kết quả thực nghiệm ra các định dạng chuẩn học thuật:
+Dự án cung cấp bộ công cụ tự động biên dịch toàn bộ dữ liệu, mô hình toán và kết quả thực nghiệm ra các định dạng chuẩn:
 
-### 1. Xuất Báo cáo Chuyên đề tốt nghiệp Microsoft Word (.docx)
+### 1. Xuất Báo cáo kỹ thuật tổng hợp Microsoft Word (.docx)
 Script tích hợp bộ chuyển đổi công thức toán LaTeX sang **native Microsoft Office OMML (Office Math Markup Language)**, triệt tiêu hoàn toàn lỗi vỡ font ký hiệu toán học trong Word:
 
 ```powershell
 python scripts\export_report_word.py
 ```
-> File Word hoàn chỉnh được xuất tại: `docs/Bao_Cao_Chuyen_De_Tot_Nghiep_NguyenVanThinh_25730149.docx`.
+> File Word hoàn chỉnh được xuất tại thư mục `docs/`.
 
-### 2. Xuất Bài báo nghiên cứu khoa học LaTeX (.tex)
-Tạo tệp mã nguồn bài báo theo định dạng chuẩn hai cột của **IEEE Conference Template**:
+### 2. Xuất Báo cáo nghiên cứu định dạng LaTeX (.tex)
+Tạo tệp mã nguồn báo cáo tổng hợp theo định dạng chuẩn hai cột:
 
 ```powershell
 python scripts\export_paper_latex.py
 ```
 > File LaTeX được xuất tại: `docs/paper_demand_forecasting.tex` (sẵn sàng biên dịch trên Overleaf, MiKTeX hoặc TeX Live).
 
-### 3. Sinh hệ thống sơ đồ học thuật 300 DPI
+### 3. Sinh hệ thống sơ đồ kiến trúc 300 DPI
 Tự động vẽ và xuất 20 sơ đồ kiến trúc, luồng phân phối đuôi dài, cơ chế Croston, sliding window và ma trận danh mục phục vụ in ấn ấn phẩm:
 
 ```powershell
@@ -566,32 +562,17 @@ python scripts\generate_thesis_diagrams.py
 
 ## 📚 Hệ thống tài liệu dự án
 
-Để tìm hiểu sâu hơn về từng khía cạnh kỹ thuật của hệ thống, vui lòng tham khảo các tài liệu chuyên đề chi tiết trong thư mục [`docs/`](docs/):
+Để tìm hiểu sâu hơn về từng khía cạnh kỹ thuật của hệ thống, vui lòng tham khảo các tài liệu kỹ thuật chi tiết trong thư mục [`docs/`](docs/):
 
 - 📘 [**Thiết kế kiến trúc hệ thống (`docs/system_design.md`)**](docs/system_design.md): Sơ đồ chi tiết các module, giao thức I/O, ràng buộc kỹ thuật và luồng dữ liệu.
 - 📐 [**Phương pháp đánh giá mô hình (`docs/model_evaluation.md`)**](docs/model_evaluation.md): Định nghĩa toán học của 8 mô hình dự báo, công thức tính toán chỉ số lỗi và phân tích chi tiết.
 - 🎯 [**Chiến lược dữ liệu (`docs/data_strategy.md`)**](docs/data_strategy.md): Cơ sở lựa chọn dataset Olist làm nền tảng và vị trí của market snapshot trong bài toán thực tế.
 - 📖 [**Từ điển dữ liệu Dashboard (`docs/dashboard_data_dictionary.md`)**](docs/dashboard_data_dictionary.md): Bảng tra cứu ý nghĩa, định dạng và nguồn gốc của tất cả các trường dữ liệu.
-- 📑 [**Bản thảo bài báo nghiên cứu Markdown (`docs/paper_demand_forecasting.md`)**](docs/paper_demand_forecasting.md): Toàn văn bài báo khoa học tiếng Anh gồm 5 phần chuẩn cấu trúc IMRAD.
-
----
-
-## 👨‍💻 Tác giả & Bản quyền
-
-- **Tác giả:** Nguyễn Văn Thịnh
-- **Mã số sinh viên:** 25730149
-- **Ngành học:** Công nghệ Thông tin
-- **Khóa luận:** Chuyên đề Tốt nghiệp — Hệ Thống Dự Báo Nhu Cầu & Tối Ưu Hóa Danh Mục Sản Phẩm Thương Mại Điện Tử
-- **Đơn vị công tác:** Khoa Hệ thống Thông tin, Trường Đại học Công nghệ Thông tin, Đại học Quốc gia TP. Hồ Chí Minh (UIT)
-- **Email học thuật:** `25730149@uit.edu.vn`
-- **GitHub Repository:** [ThinhNguyenV/demand-forecasting-system-product-portfolio-optimization-ecommerce](https://github.com/ThinhNguyenV/demand-forecasting-system-product-portfolio-optimization-ecommerce)
 
 ---
 
 <div align="center">
 
-Dự án được phân phối dưới giấy phép **MIT License**. Mọi quyền được bảo lưu © 2026 Nguyễn Văn Thịnh.
-
-*Developed with passion for Data Science & E-Commerce Operations at University of Information Technology (VNU-HCM).*
+*An End-to-End Production-Grade Machine Learning & Decision Intelligence System for Modern E-Commerce.*
 
 </div>
